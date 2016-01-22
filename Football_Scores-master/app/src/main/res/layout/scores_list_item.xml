@@ -19,6 +19,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:contentDescription="@string/score_item_home_crest_description"
                 android:id="@+id/home_crest"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -61,6 +62,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/score_item_away_crest_description"
                 android:layout_gravity="center"
                 android:id="@+id/away_crest"/>
             <TextView

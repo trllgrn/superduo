@@ -1,0 +1,102 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:id="@+id/wdgt_layout_wrapper"
+        android:layout_height="match_parent"
+        android:background="@color/background_material_light"
+        android:paddingTop="5dp"
+        >
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/abc_control_padding_material"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:contentDescription="@string/score_item_home_crest_description"
+                android:id="@+id/wdgt_home_crest"
+                android:padding="@dimen/abc_control_padding_material"
+                android:src="@drawable/arsenal" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="top|center"
+                android:textSize="@dimen/abc_text_size_small_material"
+                android:gravity="center"
+                android:id="@+id/wdgt_home_name"
+                android:textColor="@color/primary_text_default_material_light"
+                android:text="Manchester City" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/abc_control_padding_material"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Next Match:"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="@color/primary_text_default_material_light"
+                android:textSize="@dimen/abc_text_size_medium_material"
+                android:id="@+id/wdgt_nxtmatch_textview"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Sunday, Jan 5"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="@color/primary_text_default_material_light"
+                android:textSize="@dimen/abc_text_size_medium_material"
+                android:id="@+id/wdgt_date_textview"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="12:30PM"
+                android:layout_gravity="center"
+                android:textColor="@color/primary_text_default_material_light"
+                android:gravity="center"
+                android:id="@+id/wdgt_time_textview"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/abc_control_padding_material"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/score_item_away_crest_description"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:id="@+id/wdgt_away_crest"
+                android:padding="@dimen/abc_control_padding_material"
+                android:src="@drawable/chelsea" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="top|center"
+                android:textSize="@dimen/abc_text_size_small_material"
+                android:textColor="@color/primary_text_default_material_light"
+                android:id="@+id/wdgt_away_name"
+                android:text="West Bromwich Albion" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

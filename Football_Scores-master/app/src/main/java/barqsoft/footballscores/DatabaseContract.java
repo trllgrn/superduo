@@ -1,6 +1,7 @@
 package barqsoft.footballscores;
 
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
@@ -9,8 +10,17 @@ import android.provider.BaseColumns;
  */
 public class DatabaseContract
 {
-    public static final String SCORES_TABLE = "scores_table";
-    public static final class scores_table implements BaseColumns
+    //URI data
+    public static final String CONTENT_AUTHORITY = "barqsoft.footballscores";
+    public static final String SCORES_PATH = "score";
+    public static final String TEAMS_PATH = "team";
+    public static Uri BASE_CONTENT_URI = Uri.parse("content://"+CONTENT_AUTHORITY);
+
+
+    public static final String SCORES_TABLE = "scores";
+    public static final String TEAMS_TABLE = "teams";
+
+    public static final class ScoresEntry implements BaseColumns
     {
         //Table data
         public static final String LEAGUE_COL = "league";
@@ -23,30 +33,61 @@ public class DatabaseContract
         public static final String MATCH_ID = "match_id";
         public static final String MATCH_DAY = "match_day";
 
-        //public static Uri SCORES_CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH)
-                //.build();
+        public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(SCORES_PATH).build();
 
         //Types
         public static final String CONTENT_TYPE =
-                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH;
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + SCORES_PATH;
         public static final String CONTENT_ITEM_TYPE =
-                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH;
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + SCORES_PATH;
 
         public static Uri buildScoreWithLeague()
         {
-            return BASE_CONTENT_URI.buildUpon().appendPath("league").build();
+            return CONTENT_URI.buildUpon().appendPath("league").build();
         }
         public static Uri buildScoreWithId()
         {
-            return BASE_CONTENT_URI.buildUpon().appendPath("id").build();
+            return CONTENT_URI.buildUpon().appendPath("id").build();
         }
         public static Uri buildScoreWithDate()
         {
-            return BASE_CONTENT_URI.buildUpon().appendPath("date").build();
+            return CONTENT_URI.buildUpon().appendPath("date").build();
+        }
+        public static Uri buildFutureScores()
+        {
+            return CONTENT_URI.buildUpon().appendPath("future").build();
         }
     }
-    //URI data
-    public static final String CONTENT_AUTHORITY = "barqsoft.footballscores";
-    public static final String PATH = "scores";
-    public static Uri BASE_CONTENT_URI = Uri.parse("content://"+CONTENT_AUTHORITY);
+
+
+    public static final class TeamsEntry implements BaseColumns {
+        //This class will specify the attributes associated with the Team table
+
+        //Table Data
+        public static final String TABLE_NAME = "teams";
+
+        public static final String COL_NAME = "name";
+
+        public static final String COL_CODE = "code";
+
+        public static final String COL_SHORT_NAME = "shortName";
+
+        public static final String COL_CREST_URL = "crestUrl";
+
+        public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(TEAMS_PATH).build();
+
+        //Content Types
+        public static final String CONTENT_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + TEAMS_PATH;
+
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + TEAMS_PATH;
+
+        //URIs
+        public static Uri buildUriWithId(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI,id);
+        }
+    }
+
+
 }
