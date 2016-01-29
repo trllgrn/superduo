@@ -24,11 +24,18 @@ import java.util.Map;
  */
 public class Utilities
 {
-    public static final int SERIE_A = 357;
-    public static final int PREMIER_LEGAUE = 354;
-    public static final int CHAMPIONS_LEAGUE = 362;
-    public static final int PRIMERA_DIVISION = 358;
-    public static final int BUNDESLIGA = 351;
+    public static final int BUNDESLIGA1 = 394;
+    public static final int BUNDESLIGA2 = 395;
+    public static final int LIGUE1 = 396;
+    public static final int LIGUE2 = 397;
+    public static final int PRIMERA_LEAGUE = 398;
+    public static final int PRIMERA_DIV = 399;
+    public static final int SEGUNDA_DIV = 400;
+    public static final int SERIE_A = 401;
+    public static final int PRIMERA_LIGA = 402;
+    public static final int BUNDESLIGA3 = 403;
+    public static final int EREDEVISIE = 404;
+    public static final int CHAMPIONS_LEAGUE = 405;
 
     private static int apiCallCount = 0;
 
@@ -40,11 +47,18 @@ public class Utilities
         switch (league_num)
         {
             case SERIE_A : return "Seria A";
-            case PREMIER_LEGAUE : return "Premier League";
-            case CHAMPIONS_LEAGUE : return "UEFA Champions League";
-            case PRIMERA_DIVISION : return "Primera Division";
-            case BUNDESLIGA : return "Bundesliga";
-            default: return "Not known League Please report";
+            case LIGUE1 : return "Ligue 1";
+            case LIGUE2 : return "Ligue 2";
+            case PRIMERA_LEAGUE : return "Premier League";
+            case SEGUNDA_DIV : return "Segunda Division";
+            case PRIMERA_LIGA : return "Primera Liga";
+            case EREDEVISIE : return "Eredivisie";
+            case PRIMERA_DIV : return "Primera Division";
+            case BUNDESLIGA1 : return "Bundesliga 1";
+            case BUNDESLIGA2 : return "Bundesliga 2";
+            case BUNDESLIGA3 : return "Bundesliga 3";
+            case CHAMPIONS_LEAGUE : return "Champions League";
+            default: return "Unknown League Please report";
         }
     }
     public static String getMatchDay(int match_day,int league_num)
@@ -178,32 +192,24 @@ public class Utilities
 
         if (apiCallCount == 49) {
             //Sleep for a minute
-            Log.d(TAG, "callAPI: Reached System limit. Waiting a minute...");
             SystemClock.sleep(60000);
             //reset the counter
             apiCallCount = 0;
         } else {
-            Log.d(TAG, "callAPI: API Call Count: " + apiCallCount);
             apiCallCount++;
         }
 
         //Opening Connection
         try {
             URL fetch = new URL(queryString);
-            Log.d(TAG, "callAPI: Set URL: " + fetch.toString());
             m_connection = (HttpURLConnection) fetch.openConnection();
             m_connection.setRequestMethod("GET");
-            Log.d(TAG, "callAPI: value of api_key: " + context.getString(R.string.api_key));
             m_connection.addRequestProperty("X-Auth-Token", context.getString(R.string.api_key));
             Map props = m_connection.getRequestProperties();
-            Log.d(TAG, "callAPI: request props: " + m_connection.getRequestProperty("X-Auth-Token"));
-            Log.d(TAG, "callAPI: the request: " + m_connection.toString());
             m_connection.connect();
-            Log.d(TAG, "callAPI: Connection made!");
 
             // Read the input stream into a String
             InputStream inputStream = m_connection.getInputStream();
-            Log.d(TAG, "callAPI: got InputStream!");
             StringBuffer buffer = new StringBuffer();
             if (inputStream == null) {
                 // Nothing to do.
@@ -224,7 +230,6 @@ public class Utilities
             }
             JSON_data = buffer.toString();
             //Output the retrieved data from the web service
-            Log.d(TAG, "JSON Data from Football API: " + JSON_data);
             if (JSON_data != null) {
                 results = new JSONObject(JSON_data);
             }
@@ -288,11 +293,8 @@ public class Utilities
             pngURL.append(PNG_PREFIX).append(file_name).append(PNG_SUFFIX);
 
         } else {
-            Log.d(TAG, "getPNGUrl: svg String is not a SVG: " + svgURL);
             return changeProtocol(svgURL);
         }
-
-        Log.d(TAG, "getPNGUrl: Converted PNG URL: " + pngURL.toString());
 
         return pngURL.toString();
     }

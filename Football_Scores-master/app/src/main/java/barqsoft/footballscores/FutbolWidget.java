@@ -7,17 +7,11 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.squareup.picasso.Picasso;
-
-import java.io.InputStream;
-import java.util.Arrays;
 
 /**
  * Implementation of App Widget functionality.
@@ -53,11 +47,7 @@ public class FutbolWidget extends AppWidgetProvider {
         //Query the database for matches with Date >= to today and time >= right now
         String today = Utilities.getTodaysDate();
 
-        Log.d(TAG, "updateAppWidget: formatted Day: " + Utilities.getFormattedDay(today));
-
         String currentTime = Utilities.getTheTime();
-
-        Log.d(TAG,"Today's Date: " + today);
 
         //Launch query in background thread
 
@@ -91,16 +81,13 @@ public class FutbolWidget extends AppWidgetProvider {
 
         String[] colNames = data.getColumnNames();
 
-        Log.d(TAG, "updateAppWidget: got these column names: " + Arrays.asList(colNames).toString());
 
 
         //Get the first record
         if (data == null || !data.moveToFirst()) {
             Log.d(TAG, "updateAppWidget: Scores Cursor is empty");
         } else {
-            Log.d(TAG, "updateAppWidget: We have data!");
             int count = data.getCount();
-            Log.d(TAG, "updateAppWidget: Got " + count + " rows!");
 
             //Get the row with a game nearest to now.
             //Find out the date of the first row.
@@ -109,17 +96,13 @@ public class FutbolWidget extends AppWidgetProvider {
                 //if the Date of the first row is not today, then the nearest game is at least tomorrow
                 //we can extract and use this data for our widget
                 if (fetchedDate.equals(today)) {
-                    Log.d(TAG, "updateAppWidget: First date in result is a future date. Awesome!");
                     String fetchedTime = data.getString(data.getColumnIndex(COL_MATCHTIME));
-                    Log.d(TAG, "updateAppWidget: currentTime: " + currentTime);
-                    Log.d(TAG, "updateAppWidget: fetchedTime: " + fetchedTime);
                     int fetchedTimeHour = Integer.parseInt(fetchedTime.substring(0,2));
                     int currentTimeHour = Integer.parseInt(currentTime.substring(0,2));
                     if (fetchedTimeHour >= currentTimeHour) {
                         break;
                     }
                 } else {
-                    Log.d(TAG, "updateAppWidget: Future date found.");
                     break;
                 }
             } while(data.moveToNext());
@@ -208,46 +191,6 @@ public class FutbolWidget extends AppWidgetProvider {
     @Override
     public void onDisabled(Context context) {
         // Enter relevant functionality for when the last widget is disabled
-    }
-
-    private static class DownloadBitmapTask extends AsyncTask<String,Void,Bitmap> {
-        RemoteViews rv;
-        int remoteViewID;
-
-        public DownloadBitmapTask(RemoteViews wdgtViews, int viewID) {
-            this.rv = wdgtViews;
-            this.remoteViewID = viewID;
-        }
-
-        @Override
-        protected Bitmap doInBackground(String... urls) {
-            Bitmap crest = null;
-            String imgURL = urls[0];
-            try {
-                //URL aURL = new URL(imgURL);
-                //HttpURLConnection connection = (HttpURLConnection) aURL.openConnection();
-                //connection.setDoInput(true);
-                //connection.connect();
-                Log.d(TAG, "doInBackground: Fetching Bitmap...URL: " + imgURL);
-
-                InputStream in = new java.net.URL(imgURL).openStream();
-                if (in != null) {
-                    Log.d(TAG, "doInBackground: Stream opened fine.");
-                }
-                //InputStream in = connection.getInputStream();
-                crest = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e(TAG, "loadBitmap: " + e.getMessage());
-                e.printStackTrace();
-            }
-            return crest;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            super.onPostExecute(bitmap);
-            rv.setImageViewBitmap(remoteViewID,bitmap);
-        }
     }
 }
 

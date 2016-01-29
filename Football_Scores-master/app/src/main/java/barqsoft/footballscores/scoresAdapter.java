@@ -17,15 +17,7 @@ import com.squareup.picasso.Picasso;
  */
 public class scoresAdapter extends CursorAdapter
 {
-    /*public static final int COL_HOME = 3;
-    public static final int COL_AWAY = 4;
-    public static final int COL_HOME_GOALS = 6;
-    public static final int COL_AWAY_GOALS = 7;
-    public static final int COL_DATE = 1;
-    public static final int COL_LEAGUE = 5;
-    public static final int COL_MATCHDAY = 9;
-    public static final int COL_ID = 8;
-    public static final int COL_MATCHTIME = 2;*/
+
     public double detail_match_id = 0;
     private String FOOTBALL_SCORES_HASHTAG = "#Football_Scores";
 
@@ -56,7 +48,8 @@ public class scoresAdapter extends CursorAdapter
 
         mHolder.home_name.setText(cursor.getString(cursor.getColumnIndex(COL_HOME_SHORT)));
         mHolder.away_name.setText(cursor.getString(cursor.getColumnIndex(COL_AWAY_SHORT)));
-        mHolder.date.setText(cursor.getString(cursor.getColumnIndex(DatabaseContract.ScoresEntry.TIME_COL)));
+        mHolder.date.setText(Utilities.
+                getFormattedTime(cursor.getString(cursor.getColumnIndex(DatabaseContract.ScoresEntry.TIME_COL))));
         mHolder.score.setText(Utilities.getScores(cursor.getInt(cursor.getColumnIndex(DatabaseContract.ScoresEntry.HOME_GOALS_COL)),
                 cursor.getInt(cursor.getColumnIndex(DatabaseContract.ScoresEntry.AWAY_GOALS_COL))));
         mHolder.match_id = cursor.getDouble(cursor.getColumnIndex(DatabaseContract.ScoresEntry.MATCH_ID));

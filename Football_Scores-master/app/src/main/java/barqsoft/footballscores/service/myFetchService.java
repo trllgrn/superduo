@@ -17,7 +17,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.TimeZone;
-import java.util.TreeSet;
 import java.util.Vector;
 
 import barqsoft.footballscores.DatabaseContract;
@@ -65,8 +64,6 @@ public class myFetchService extends IntentService
         } else {
             Log.d(LOG_TAG, "fetchTeamIdsFromDB: Teams query returned no data!");
         }
-        Log.d(LOG_TAG, "fetchTeamIdsFromDB: Cached Teams in DB: " + teamsInDB.size());
-        Log.d(LOG_TAG, "fetchTeamIdsFromDB: Teams in DB: " + teamsInDB.toString());
     }
 
     private void getData (String timeFrame)
@@ -79,7 +76,6 @@ public class myFetchService extends IntentService
 
         Uri fetch_build = Uri.parse(FIXTURES_URL).buildUpon().
                 appendQueryParameter(QUERY_TIME_FRAME, timeFrame).build();
-        Log.d(LOG_TAG, "The url we are looking at is: " + fetch_build.toString()); //log spam
         JSONObject JSON_data = Utilities.callAPI(getApplicationContext(), fetch_build.toString());
         try {
             if (JSON_data != null) {
@@ -134,9 +130,6 @@ public class myFetchService extends IntentService
             teamValues.put(DatabaseContract.TeamsEntry.COL_CODE,fetchedCode);
             teamValues.put(DatabaseContract.TeamsEntry.COL_SHORT_NAME, fetchedShortName);
             //Convert SVG URL to point to PNG version
-            Log.d(LOG_TAG, "processTeamData: converting URL: ORIGINAL - " + fetchedCrestUrl);
-
-            Log.d(LOG_TAG, "processTeamData: converting URL: PNG Version - " + Utilities.getPNGUrl(fetchedCrestUrl));
 
             teamValues.put(DatabaseContract.TeamsEntry.COL_CREST_URL,fetchedCrestUrl);
 
@@ -165,7 +158,7 @@ public class myFetchService extends IntentService
         final String BUNDESLIGA3 = "403";
         final String EREDIVISIE = "404";
 
-        TreeSet<String> mMyLeagues = new TreeSet<>();
+        HashSet<String> mMyLeagues = new HashSet<>();
         mMyLeagues.add(BUNDESLIGA1);
         mMyLeagues.add(BUNDESLIGA2);
         mMyLeagues.add(LIGUE1);
@@ -231,8 +224,6 @@ public class myFetchService extends IntentService
                     //Get the team URLs to fetch make team data call.
                     homeTeamUrl = match_data.getJSONObject(LINKS).getJSONObject("homeTeam").getString(HREF);
                     awayTeamUrl = match_data.getJSONObject(LINKS).getJSONObject("awayTeam").getString(HREF);
-                    Log.d(LOG_TAG, "processJSONdata: Fetched home team URL: " + homeTeamUrl);
-                    Log.d(LOG_TAG, "processJSONdata: Fetched away team URL: " + awayTeamUrl);
 
                     if (homeTeamUrl != null) {
                         String homeTeamNumber = homeTeamUrl.replace(TEAM_LINK, "");
@@ -240,9 +231,6 @@ public class myFetchService extends IntentService
                         if (!teamsInDB.contains(Integer.parseInt(homeTeamNumber))) {
                             JSONObject homeTeamResults = Utilities.callAPI(mContext, homeTeamUrl);
                             processTeamData(homeTeamResults, homeTeamNumber);
-                        }
-                        else {
-                            Log.d(LOG_TAG, "processJSONdata: Found team in DB.");
                         }
                     }
 
@@ -252,8 +240,6 @@ public class myFetchService extends IntentService
                         if (!teamsInDB.contains(Integer.parseInt(awayTeamNumber))) {
                             JSONObject awayTeamResults = Utilities.callAPI(mContext, awayTeamUrl);
                             processTeamData(awayTeamResults, awayTeamNumber);
-                        } else {
-                            Log.d(LOG_TAG, "processJSONdata: Found team in DB.");
                         }
                     }
 
@@ -326,7 +312,6 @@ public class myFetchService extends IntentService
             inserted_data = mContext.getContentResolver().bulkInsert(
                     DatabaseContract.BASE_CONTENT_URI,insert_data);
 
-            Log.d(LOG_TAG,"Succesfully Inserted : " + String.valueOf(inserted_data) + "rows");
         }
         catch (JSONException e)
         {
