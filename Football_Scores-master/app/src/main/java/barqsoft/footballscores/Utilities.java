@@ -1,6 +1,8 @@
 package barqsoft.footballscores;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.SystemClock;
 import android.util.Log;
 
@@ -124,19 +126,14 @@ public class Utilities
         if (inputDate != null){
             String[] parsedDate = inputDate.split("-");
             GregorianCalendar gCal = new GregorianCalendar(Integer.parseInt(parsedDate[0]),
-                                                            Integer.parseInt(parsedDate[1]),
+                                                            Integer.parseInt(parsedDate[1])-1,
                                                             Integer.parseInt(parsedDate[2]));
-
-            Date theDate = new Date(Integer.parseInt(parsedDate[0]),
-                                    Integer.parseInt(parsedDate[1]),
-                                    Integer.parseInt(parsedDate[2]));
             //Date theDate = gCal.getTime();
             //Construct the formatted Day
             //Formatted String
             SimpleDateFormat dformat = new SimpleDateFormat("EE, MMM d");
 
-            //return dformat.format(theDate);
-            return theDate.toString();
+            return dformat.format(gCal.getTime());
         } else {
             return null;
         }
@@ -154,6 +151,22 @@ public class Utilities
         else {
             return null;
         }
+    }
+
+    public static Bitmap loadBitmap(String src) {
+        Bitmap crest = null;
+        try {
+            URL aURL = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) aURL.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream in = connection.getInputStream();
+            crest = BitmapFactory.decodeStream(in);
+        } catch (Exception e) {
+            Log.e(TAG, "loadBitmap: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return crest;
     }
 
     public static JSONObject callAPI(Context context, String queryString) {
@@ -238,5 +251,63 @@ public class Utilities
             }
         }
         return results;
+    }
+
+    public static String getPNGUrl(String svgURL) {
+        //Strip the protocol
+        //Should be http://
+        StringBuilder pngURL = new StringBuilder();
+        final String THUMB = "thumb";
+        final String PNG_PREFIX = "200px-";
+        final String PNG_SUFFIX = ".png";
+
+        String svgStripped = null;
+        if (svgURL.endsWith(".svg")) {
+            if (svgURL.startsWith("http://")) {
+                svgStripped = new StringBuilder(svgURL).delete(0, 7).toString();
+            } else if (svgURL.startsWith("https://")) {
+                svgStripped = new StringBuilder(svgURL).delete(0,8).toString();
+            }
+            String[] tokens = svgStripped.split("/");
+            String auth = tokens[0]; //upload.wikimedia.org
+            String wiki_path = tokens[1]; //wikipedia
+            String language_path = tokens[2]; //lang
+            String dir_path1 = tokens[3]; //dir1
+            String dir_path2 = tokens[4]; //dir2
+            String file_name = tokens[5]; //*.svg
+
+            //Build the new PNG URL
+            pngURL.append("https://").append(auth + "/");
+            pngURL.append(wiki_path + "/");
+            pngURL.append(language_path + "/");
+            //Insert thumbnail dir
+            pngURL.append(THUMB + "/");
+            pngURL.append(dir_path1 + "/");
+            pngURL.append(dir_path2 + "/");
+            pngURL.append(file_name + "/");
+            pngURL.append(PNG_PREFIX).append(file_name).append(PNG_SUFFIX);
+
+        } else {
+            Log.d(TAG, "getPNGUrl: svg String is not a SVG: " + svgURL);
+            return changeProtocol(svgURL);
+        }
+
+        Log.d(TAG, "getPNGUrl: Converted PNG URL: " + pngURL.toString());
+
+        return pngURL.toString();
+    }
+
+    public static String changeProtocol(String url) {
+        final String HTTP = "http://";
+        final String HTTPS = "https://";
+
+        if (url.startsWith(HTTP)) {
+            StringBuilder builder = new StringBuilder(url);
+            builder.delete(0,7);
+            builder.insert(0,HTTPS);
+            return builder.toString();
+        } else {
+            return url;
+        }
     }
 }

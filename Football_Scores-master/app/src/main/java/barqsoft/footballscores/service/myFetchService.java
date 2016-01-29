@@ -132,7 +132,12 @@ public class myFetchService extends IntentService
             teamValues.put(DatabaseContract.TeamsEntry._ID, teamNumber);
             teamValues.put(DatabaseContract.TeamsEntry.COL_NAME,fetchedName);
             teamValues.put(DatabaseContract.TeamsEntry.COL_CODE,fetchedCode);
-            teamValues.put(DatabaseContract.TeamsEntry.COL_SHORT_NAME,fetchedShortName);
+            teamValues.put(DatabaseContract.TeamsEntry.COL_SHORT_NAME, fetchedShortName);
+            //Convert SVG URL to point to PNG version
+            Log.d(LOG_TAG, "processTeamData: converting URL: ORIGINAL - " + fetchedCrestUrl);
+
+            Log.d(LOG_TAG, "processTeamData: converting URL: PNG Version - " + Utilities.getPNGUrl(fetchedCrestUrl));
+
             teamValues.put(DatabaseContract.TeamsEntry.COL_CREST_URL,fetchedCrestUrl);
 
             resolver.insert(DatabaseContract.TeamsEntry.CONTENT_URI,teamValues);
@@ -285,8 +290,10 @@ public class myFetchService extends IntentService
                         Log.d(LOG_TAG, "error here!");
                         Log.e(LOG_TAG,e.getMessage());
                     }
-                    Home = match_data.getString(HOME_TEAM);
-                    Away = match_data.getString(AWAY_TEAM);
+                    //Home = match_data.getString(HOME_TEAM);
+                    //Away = match_data.getString(AWAY_TEAM);
+                    int homeTeamNum = Integer.parseInt(homeTeamUrl.replace(TEAM_LINK, ""));
+                    int awayTeamNum = Integer.parseInt(awayTeamUrl.replace(TEAM_LINK,""));
                     Home_goals = match_data.getJSONObject(RESULT).getString(HOME_GOALS);
                     Away_goals = match_data.getJSONObject(RESULT).getString(AWAY_GOALS);
                     match_day = match_data.getString(MATCH_DAY);
@@ -294,8 +301,8 @@ public class myFetchService extends IntentService
                     match_values.put(DatabaseContract.ScoresEntry.MATCH_ID,match_id);
                     match_values.put(DatabaseContract.ScoresEntry.DATE_COL,mDate);
                     match_values.put(DatabaseContract.ScoresEntry.TIME_COL,mTime);
-                    match_values.put(DatabaseContract.ScoresEntry.HOME_COL,Home);
-                    match_values.put(DatabaseContract.ScoresEntry.AWAY_COL,Away);
+                    match_values.put(DatabaseContract.ScoresEntry.HOME_COL,homeTeamNum);
+                    match_values.put(DatabaseContract.ScoresEntry.AWAY_COL,awayTeamNum);
                     match_values.put(DatabaseContract.ScoresEntry.HOME_GOALS_COL,Home_goals);
                     match_values.put(DatabaseContract.ScoresEntry.AWAY_GOALS_COL,Away_goals);
                     match_values.put(DatabaseContract.ScoresEntry.LEAGUE_COL,League);

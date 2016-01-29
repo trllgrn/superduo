@@ -16,13 +16,14 @@
             android:orientation="vertical">
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:layout_weight="1"
                 android:layout_gravity="center"
                 android:contentDescription="@string/score_item_home_crest_description"
                 android:id="@+id/wdgt_home_crest"
                 android:padding="@dimen/abc_control_padding_material"
-                android:src="@drawable/arsenal" />
+                android:scaleType="fitCenter"
+                android:src="@drawable/everton_fc_logo1" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -32,7 +33,7 @@
                 android:gravity="center"
                 android:id="@+id/wdgt_home_name"
                 android:textColor="@color/primary_text_default_material_light"
-                android:text="Manchester City" />
+                android:text="MAN" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
@@ -64,7 +65,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:text="12:30PM"
                 android:layout_gravity="center"
                 android:textColor="@color/primary_text_default_material_light"
@@ -80,13 +81,14 @@
             android:orientation="vertical">
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:contentDescription="@string/score_item_away_crest_description"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:id="@+id/wdgt_away_crest"
                 android:padding="@dimen/abc_control_padding_material"
-                android:src="@drawable/chelsea" />
+                android:scaleType="fitCenter"
+                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -96,7 +98,7 @@
                 android:textSize="@dimen/abc_text_size_small_material"
                 android:textColor="@color/primary_text_default_material_light"
                 android:id="@+id/wdgt_away_name"
-                android:text="West Bromwich Albion" />
+                 />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

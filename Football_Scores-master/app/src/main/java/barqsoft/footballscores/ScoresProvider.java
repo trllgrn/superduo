@@ -128,9 +128,14 @@ public class ScoresProvider extends ContentProvider
         //Log.v(FetchScoreTask.LOG_TAG,String.valueOf(match));
         switch (match)
         {
-            case MATCHES: retCursor = mOpenHelper.getReadableDatabase().query(
-                    DatabaseContract.SCORES_TABLE,
-                    projection,null,null,null,null,sortOrder);
+            case MATCHES:
+                    String joinedTable = DatabaseContract.SCORES_TABLE + " INNER JOIN " +
+                                         DatabaseContract.TEAMS_TABLE + " h ON (" + DatabaseContract.SCORES_TABLE + "." + DatabaseContract.ScoresEntry.HOME_COL + " = " + "h._ID)" +
+                                         " INNER JOIN " +
+                                         DatabaseContract.TEAMS_TABLE + " a ON (" + DatabaseContract.SCORES_TABLE + "." + DatabaseContract.ScoresEntry.AWAY_COL + " = " + "a._ID)";
+                    retCursor = mOpenHelper.getReadableDatabase().query(
+                    joinedTable,
+                    projection,selection,selectionArgs,null,null,sortOrder);
                  break;
             case MATCHES_WITH_DATE:
                     //Log.v(FetchScoreTask.LOG_TAG,selectionArgs[1]);

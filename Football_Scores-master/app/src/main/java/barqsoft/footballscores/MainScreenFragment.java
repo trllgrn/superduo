@@ -65,8 +65,35 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle)
     {
-        return new CursorLoader(getActivity(), DatabaseContract.ScoresEntry.buildScoreWithDate(),
-                null,null,fragmentdate,null);
+
+        final String COL_HOME_SHORT = "homeTeamShort";
+        final String COL_HOME_CREST_URL = "homeTeamCrest";
+        final String COL_AWAY_NAME = "awayTeamName";
+        final String COL_AWAY_CODE = "awayTeamCode";
+        final String COL_AWAY_SHORT = "awayTeamShort";
+        final String COL_AWAY_CREST_URL = "awayTeamCrest";
+
+        String[] requestedColumns = new String[] {
+                DatabaseContract.SCORES_TABLE + "." + DatabaseContract.ScoresEntry._ID,
+                DatabaseContract.ScoresEntry.DATE_COL,
+                DatabaseContract.ScoresEntry.TIME_COL,
+                DatabaseContract.ScoresEntry.LEAGUE_COL,
+                DatabaseContract.ScoresEntry.HOME_GOALS_COL,
+                DatabaseContract.ScoresEntry.AWAY_GOALS_COL,
+                DatabaseContract.ScoresEntry.MATCH_DAY,
+                DatabaseContract.ScoresEntry.MATCH_ID,
+                "h.shortName as " + COL_HOME_SHORT,
+                "h.crestUrl as " + COL_HOME_CREST_URL,
+                "a.name as " + COL_AWAY_NAME,
+                "a.code as " + COL_AWAY_CODE,
+                "a.shortName as " + COL_AWAY_SHORT,
+                "a.crestUrl as " + COL_AWAY_CREST_URL
+        };
+
+        String dateRequest = DatabaseContract.ScoresEntry.DATE_COL + " LIKE ?";
+
+        return new CursorLoader(getActivity(), DatabaseContract.BASE_CONTENT_URI,
+                requestedColumns,dateRequest,fragmentdate,null);
     }
 
     @Override

@@ -4,7 +4,7 @@
     android:initialLayout="@layout/futbol_widget"
     android:minHeight="60dp"
     android:minWidth="250dp"
-    android:previewImage="@drawable/example_appwidget_preview"
+    android:previewImage="@drawable/wdgt_preview"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="3600000"
     android:widgetCategory="home_screen"></appwidget-provider>
