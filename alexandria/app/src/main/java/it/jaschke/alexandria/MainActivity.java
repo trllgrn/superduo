@@ -14,7 +14,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import it.jaschke.alexandria.api.Callback;
@@ -141,13 +140,20 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         fragment.setArguments(args);
 
         int id = R.id.container;
+
+        //if we're in 2 pane mode, don't add to the back stack
         if(findViewById(R.id.right_container) != null){
             id = R.id.right_container;
+            getSupportFragmentManager().beginTransaction()
+                    .replace(id, fragment)
+                    .commit();
+        } else {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(id, fragment)
+                    .addToBackStack(null)
+                    .commit();
         }
-        getSupportFragmentManager().beginTransaction()
-                .replace(id, fragment)
-                .addToBackStack("Book Detail")
-                .commit();
+
 
     }
 
@@ -158,10 +164,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 Toast.makeText(MainActivity.this, intent.getStringExtra(MESSAGE_KEY), Toast.LENGTH_LONG).show();
             }
         }
-    }
-
-    public void goBack(View view){
-        getSupportFragmentManager().popBackStack();
     }
 
     private boolean isTablet() {

@@ -91,7 +91,7 @@ public class FutbolWidget extends AppWidgetProvider {
 
             //Get the row with a game nearest to now.
             //Find out the date of the first row.
-            do {
+            while (!data.isAfterLast()){
                 String fetchedDate = data.getString(data.getColumnIndex(COL_DATE));
                 //if the Date of the first row is not today, then the nearest game is at least tomorrow
                 //we can extract and use this data for our widget
@@ -105,13 +105,16 @@ public class FutbolWidget extends AppWidgetProvider {
                 } else {
                     break;
                 }
-            } while(data.moveToNext());
+                data.moveToNext();
+            }
 
 
             //This record should be the next match; Collect the data
-            views.setTextViewText(R.id.wdgt_date_textview, Utilities.getFormattedDay(data.getString(data.getColumnIndex(COL_DATE))));
+            views.setTextViewText(R.id.wdgt_date_textview,
+                    Utilities.getFormattedDay(data.getString(data.getColumnIndex(COL_DATE))));
 
-            views.setTextViewText(R.id.wdgt_time_textview, Utilities.getFormattedTime(data.getString(data.getColumnIndex(COL_MATCHTIME))));
+            views.setTextViewText(R.id.wdgt_time_textview,
+                    Utilities.getFormattedTime(data.getString(data.getColumnIndex(COL_MATCHTIME))));
 
             //If both teams have a code, use it.  Otherwise, go with the short name
             String homeNameToUse = null;

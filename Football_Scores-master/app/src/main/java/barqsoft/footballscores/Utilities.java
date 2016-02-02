@@ -42,22 +42,22 @@ public class Utilities
 
     private static final String TAG = "Utilities";
 
-    public static String getLeague(int league_num)
+    public static String getLeague(Context context, int league_num)
     {
         switch (league_num)
         {
-            case SERIE_A : return "Seria A";
-            case LIGUE1 : return "Ligue 1";
-            case LIGUE2 : return "Ligue 2";
-            case PRIMERA_LEAGUE : return "Premier League";
-            case SEGUNDA_DIV : return "Segunda Division";
-            case PRIMERA_LIGA : return "Primera Liga";
-            case EREDEVISIE : return "Eredivisie";
-            case PRIMERA_DIV : return "Primera Division";
-            case BUNDESLIGA1 : return "Bundesliga 1";
-            case BUNDESLIGA2 : return "Bundesliga 2";
-            case BUNDESLIGA3 : return "Bundesliga 3";
-            case CHAMPIONS_LEAGUE : return "Champions League";
+            case SERIE_A : return context.getString(R.string.SERIE_A);
+            case LIGUE1 : return context.getString(R.string.LIGUE1);
+            case LIGUE2 : return context.getString(R.string.LIGUE2);
+            case PRIMERA_LEAGUE : return context.getString(R.string.PRIMERA_LEAGUE);
+            case SEGUNDA_DIV : return context.getString(R.string.SEGUNDA_DIV);
+            case PRIMERA_LIGA : return context.getString(R.string.PRIMERA_LIGA);
+            case EREDEVISIE : return context.getString(R.string.EREDEVISIE);
+            case PRIMERA_DIV : return context.getString(R.string.PRIMERA_DIV);
+            case BUNDESLIGA1 : return context.getString(R.string.BUNDESLIGA1);
+            case BUNDESLIGA2 : return context.getString(R.string.BUNDESLIGA2);
+            case BUNDESLIGA3 : return context.getString(R.string.BUNDESLIGA3);
+            case CHAMPIONS_LEAGUE : return context.getString(R.string.CHAMPIONS_LEAGUE);
             default: return "Unknown League Please report";
         }
     }
