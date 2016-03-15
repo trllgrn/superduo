@@ -14,4 +14,6 @@ In order to run the apps, you'll need to clone the repo and have Android Studio 
 Build and run the apps using Studio just as you would from scratch apps.
 You'll need an emulator or physical Android device.
 
+I will be adding pictures and perhaps video very soon.
+
 
